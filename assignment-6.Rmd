@@ -1,0 +1,79 @@
+---
+title: "ASSIGNMENT-6"
+author: "RUTHRESHWARAN M"
+date: "2023-05-04"
+---
+
+```{r}
+library(haven)
+
+datatibble1 <- read_sav("Raw/chap7data.sav")
+datatibble1
+
+freq_table <- table(datatibble1$bstrateg)
+freq_table
+
+library(psych)
+describe(datatibble1$bstrateg)
+summary(datatibble1$bstrateg)
+
+prop.table(freq_table)
+
+label1 <- c("yes","no")
+
+pie(freq_table, label1, main="Pie Chart: Strategy",col = rainbow(length(freq_table)))
+
+```
+
+Dependent Variable:
+
+```{r}
+freq_table1 <- table(datatibble1$catestw1)
+freq_table1
+
+
+describe(datatibble1$catestw1)
+summary(datatibble1$catestw1)
+
+prop.table(freq_table1)
+
+label2 <- c("manageial", "non-managerial", "no tests conducted")
+
+pie(freq_table1, label2, main="Pie Chart: Strategy",col = rainbow(length(freq_table1)))
+
+```
+
+Chi-Square Test:
+
+```{r}
+df1 <- as.data.frame(datatibble1)
+chisq.test(df1$bstrateg,df1$catestw1)
+```
+
+Alternative Nonparametric Test: Mann-Whitney Test Two category nominal independent variable (just like a t-test) and ordinal dependent variable that can be non-normally distributed.Is there a significant difference in outcomes across these two groups?
+
+It is especially useful when the sample size is small. Instead of calculating mean scores, Mann whitney calculates the rank-ordering and comparison of scores. The bigger the difference in rank-ordering between the two groups or samples, the more likely the difference is statistically significant.
+
+```{r}
+summary(datatibble1$prp)
+summary(datatibble1$antiunion)
+
+describe(datatibble1$prp)
+describe(datatibble1$antiunion)
+
+freq_table2 <- table(datatibble1$prp)
+freq_table2
+
+library(ggplot2)
+
+barplot.default(freq_table2)
+
+freq_table3 <- table(datatibble1$antiunion)
+freq_table3
+
+barplot(freq_table3)
+res <- wilcox.test(df1$antiunion ~ df1$prp, data = df1)
+res
+```
+
+\`\`\`{r}
